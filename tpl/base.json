@@ -6,6 +6,7 @@
       "output_directory": "output-{{ user `vm_name` }}-vmware-iso",
       "tools_upload_flavor": "linux",
       "type": "vmware-iso",
+      "version": "{{ user `vmware_hardware_version` }}",
       "vmx_data": {
         "memsize": "{{ user `memory` }}",
         "numvcpus": "{{ user `cpus` }}"
@@ -66,7 +67,7 @@
     "cleanup_pause": "",
     "cm": "{{env `cm`}}",
     "cm_version": "{{env `cm_version`}}",
-    "cpus": "1",
+    "cpus": "2",
     "disk_size": "50000",
     "ftp_proxy": "{{env `ftp_proxy`}}",
     "headless": "{{env `headless`}}",

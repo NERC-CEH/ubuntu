@@ -1,5 +1,7 @@
 # Changelog
 
+## 3.0.1
+
 ## 3.0.0
 
 * Upgrade to 18.04.4 LTS

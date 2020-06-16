@@ -1,6 +1,7 @@
 #!/bin/bash -eux
 
 SSH_USER=${SSH_USERNAME:-vagrant}
+DISK_USAGE_BEFORE_CLEANUP=$(df -h)
 
 # Make sure udev does not block our network - http://6.ptmc.org/?p=164
 echo "==> Cleaning up udev rules"
@@ -20,6 +21,13 @@ fi
 # Add delay to prevent "vagrant reload" from failing
 echo "pre-up sleep 2" >> /etc/network/interfaces
 
+# Blank machine-id (DUID) so machines get unique ID generated on boot.
+# https://www.freedesktop.org/software/systemd/man/machine-id.html#Initialization
+echo "==> Blanking systemd machine-id"
+if [ -f "/etc/machine-id" ]; then
+      truncate -s 0 "/etc/machine-id"
+fi
+
 echo "==> Cleaning up tmp"
 rm -rf /tmp/*
 
@@ -30,8 +38,6 @@ apt-get -y autoclean
 
 # echo "==> Installed packages"
 # dpkg --get-selections | grep -v deinstall
-
-DISK_USAGE_BEFORE_CLEANUP=$(df -h)
 
 # Remove Bash history
 unset HISTFILE
@@ -46,12 +52,6 @@ echo "==> Clearing last login information"
 >/var/log/wtmp
 >/var/log/btmp
 
-# Whiteout root
-# count=$(df --sync -kP / | tail -n1  | awk -F ' ' '{print $4}')
-# let count--
-# dd if=/dev/zero of=/tmp/whitespace bs=1024 count=$count
-# rm /tmp/whitespace
-
 # Whiteout /boot
 # count=$(df --sync -kP /boot | tail -n1 | awk -F ' ' '{print $4}')
 # let count--
@@ -65,6 +65,7 @@ case "$?" in
     2|0) ;;
     *) exit 1 ;;
 esac
+
 set -e
 if [ "x${swapuuid}" != "x" ]; then
     # Whiteout the swap partition to reduce box size
@@ -83,8 +84,8 @@ fi
 # Packer might quite too early before the large files are deleted
 sync
 
-# echo "==> Disk usage before cleanup"
-# echo ${DISK_USAGE_BEFORE_CLEANUP}
+echo "==> Disk usage before cleanup"
+echo ${DISK_USAGE_BEFORE_CLEANUP}
 
-# echo "==> Disk usage after cleanup"
-# df -h
+echo "==> Disk usage after cleanup"
+df -h

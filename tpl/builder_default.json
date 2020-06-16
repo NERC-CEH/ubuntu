@@ -1,7 +1,7 @@
 {
   "boot_command": [
     "{{ user `boot_command_prefix` }}",
-    "/install/vmlinuz noapic ",
+    "/install/vmlinuz ",
     "file=/floppy/{{ user `preseed` }} ",
     "debian-installer=en_GB auto locale=en_GB.UTF-8 kbd-chooser/method=gb ",
     "hostname={{ user `hostname` }} ",

@@ -6,6 +6,7 @@
       "output_directory": "output-{{ user `vm_name` }}-vmware-iso",
       "tools_upload_flavor": "linux",
       "type": "vmware-iso",
+      "version": "{{ user `vmware_hardware_version` }}",
       "vmx_data": {
         "memsize": "{{ user `memory` }}",
         "numvcpus": "{{ user `cpus` }}"

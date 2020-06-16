@@ -7,6 +7,6 @@
   "vsphere_datacenter": "Lancaster",
   "vsphere_datastore": "v3700-01-cluster01",
   "vsphere_host": "la-vcenter1.nerc-lancaster.ac.uk",
-  "vsphere_template_folder": "/Production Machines/Linux/eidc/Templates",
-  "vsphere_vlan": "VM Vlan 14"
+  "vsphere_template_folder": "'/Production Machines/Linux/eidc/Templates'",
+  "vsphere_vlan": "'VM Vlan 14'"
 }

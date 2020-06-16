@@ -2,6 +2,8 @@
   "type": "vsphere",
   "cluster": "{{user `vsphere_cluster`}}",
   "insecure": "true",
+  "overwrite": "true",
+  "keep_input_artifact": "true",
   "username": "{{user `vsphere_username`}}",
   "password": "{{user `vsphere_password`}}",
   "datacenter": "{{user `vsphere_datacenter`}}",
@@ -10,4 +12,13 @@
   "vm_name": "{{user `vm_name`}}-{{user `cm`}}{{user `cm_version`}}-{{user `version`}}",
   "vm_folder": "{{user `vsphere_template_folder`}}",
   "vm_network": "{{user `vsphere_vlan`}}"
+},
+{
+  "type": "vsphere-template",
+  "insecure": "true",
+  "username": "{{user `vsphere_username`}}",
+  "password": "{{user `vsphere_password`}}",
+  "datacenter": "{{user `vsphere_datacenter`}}",
+  "host": "{{user `vsphere_host`}}",
+  "vm_folder": "{{user `vsphere_template_folder`}}",
 }]

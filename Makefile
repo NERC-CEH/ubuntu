@@ -5,7 +5,8 @@ UPLOAD_DIR ?= /mnt/nerclactdb/appdev/DIST/public/boxes/
 PACKER_ARGS ?=
 
 JQ_SET_POST_PROCESSOR := .[0]["post-processors"] = .[1]
-JQ_VMWARE_BUILDS_ONLY := .[0]["builders"] = [.[0]["builders"][] | select(.type == "vmware-iso")]
+JQ_VSPHERE_BUILDS_ONLY := .[0]["builders"] = [.[0]["builders"][] | select(.type == "vsphere-iso")]
+JQ_VAGRANT_BUILDS_ONLY := .[0]["builders"] = [.[0]["builders"][] | select(.type == "vmware-iso")]
 
 export cm ?= puppet
 export cm_version ?=
@@ -16,6 +17,8 @@ export version ?= $(shell cat VERSION)
 
 all: clean build-vagrant build-vsphere build-ami
 
+# Run packer using input build template, eg.
+#  build-vsphere = tpl-vsphere.json plus build-vsphere.json for box
 build-%: tpl-%.json
 	@for box in $(BOXES) ; do \
 	  packer build $(PACKER_ARGS) -var-file=$$box.json -var-file=$@.json $< ; \
@@ -25,10 +28,10 @@ tpl-ubuntu.json:
 	jq -s '.[1] as $$b | .[0].builders |= map(.+$$b) | .[0]' tpl/base.json tpl/builder_default.json > tpl-ubuntu.json
 
 tpl-vagrant.json: tpl-ubuntu.json
-	jq -s '$(JQ_SET_POST_PROCESSOR) | .[0]' tpl-ubuntu.json tpl/postprocess_vagrant.json > tpl-vagrant.json
+	jq -s '$(JQ_SET_POST_PROCESSOR) | $(JQ_VAGRANT_BUILDS_ONLY) | .[0]' tpl-ubuntu.json tpl/postprocess_vagrant.json > tpl-vagrant.json
 
 tpl-vsphere.json: tpl-ubuntu.json
-	jq -s '$(JQ_SET_POST_PROCESSOR) | $(JQ_VMWARE_BUILDS_ONLY) | .[0]' tpl-ubuntu.json tpl/postprocess_vsphere.json > tpl-vsphere.json
+	jq -s '$(JQ_SET_POST_PROCESSOR) | $(JQ_VSPHERE_BUILDS_ONLY) | .[0]' tpl-ubuntu.json > tpl-vsphere.json
 
 tpl-ami.json: tpl/base.json
 	jq -s '$(JQ_SET_POST_PROCESSOR) | .[0]' tpl/base_ami.json > tpl-ami.json

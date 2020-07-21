@@ -1,3 +1,4 @@
 {
-  "install_vagrant_key": "true"
+  "install_vagrant_key": "true",
+  "vmware_guest_os_type": "ubuntu-64"
 }

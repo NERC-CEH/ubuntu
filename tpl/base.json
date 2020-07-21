@@ -1,23 +1,65 @@
 {
   "builders": [
     {
+      "type": "vmware-iso",
       "guest_os_type": "{{ user `vmware_guest_os_type` }}",
       "http_directory": "http",
       "output_directory": "output-{{ user `vm_name` }}-vmware-iso",
       "tools_upload_flavor": "linux",
-      "type": "vmware-iso",
       "version": "{{ user `vmware_hardware_version` }}",
       "vmx_data": {
         "memsize": "{{ user `memory` }}",
         "numvcpus": "{{ user `cpus` }}"
-      }
+      },
+      "iso_checksum": "{{ user `iso_checksum` }}",
+      "iso_checksum_type": "{{ user `iso_checksum_type` }}",
+      "iso_urls": [
+        "{{ user `iso_url` }}"
+      ],
+      "vm_name": "{{ user `vm_name` }}",
+      "headless": "{{ user `headless` }}"
     },
     {
+      "type": "vsphere-iso",
+      "guest_os_type": "{{ user `vmware_guest_os_type` }}",
+      "http_directory": "http",
+      "vm_version": "{{ user `vmware_hardware_version` }}",
+
+      "iso_checksum": "{{ user `iso_checksum` }}",
+      "iso_checksum_type": "{{ user `iso_checksum_type` }}",
+      "iso_paths": [
+        "{{ user `iso_path` }}"
+      ],
+
+      "username": "{{ user `vsphere_username` }}",
+      "password": "{{ user `vsphere_password` }}",
+      "insecure_connection": "true",
+
+      "vcenter_server": "{{ user `vsphere_host` }}",
+      "datacenter": "{{user `vsphere_datacenter`}}",
+      "cluster": "{{ user `vsphere_cluster` }}",
+      "datastore": "{{user `vsphere_datastore`}}",
+      "vm_name": "{{user `vm_name`}}-{{user `cm`}}{{user `cm_version`}}-{{user `version`}}",
+      "folder": "{{ user `vsphere_template_folder` }}",
+
+      "CPUs": "{{ user `cpus` }}",
+      "RAM": "{{ user `memory` }}",
+
+      "network_adapters": [
+        {
+          "network": "{{ user `vsphere_vlan` }}",
+          "network_card": "vmxnet3"
+        }
+      ],
+
+      "convert_to_template": true
+    },
+    {
+      "type": "virtualbox-iso",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "guest_os_type": "{{ user `virtualbox_guest_os_type` }}",
       "hard_drive_interface": "sata",
       "output_directory": "output-{{ user `vm_name` }}-virtualbox-iso",
-      "type": "virtualbox-iso",
       "vboxmanage": [
         ["modifyvm", "{{.Name}}", "--memory", "{{ user `memory` }}"],
         ["modifyvm", "{{.Name}}", "--cpus", "{{ user `cpus` }}"],
@@ -84,7 +126,6 @@
     "ssh_username": "vagrant",
     "version": "{{env `version`}}",
     "virtualbox_guest_os_type": "Ubuntu_64",
-    "vmware_guest_os_type": "ubuntu-64",
     "vmware_restart_after_install": "false",
     "vmware_tools_version": "latest",
     "vsphere_username": "{{env `vsphere_username`}}",

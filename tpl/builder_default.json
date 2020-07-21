@@ -22,15 +22,8 @@
   "floppy_files": [
     "http/{{ user `preseed` }}"
   ],
-  "headless": "{{ user `headless` }}",
-  "iso_checksum": "{{ user `iso_checksum` }}",
-  "iso_checksum_type": "{{ user `iso_checksum_type` }}",
-  "iso_urls": [
-    "{{ user `iso_url` }}"
-  ],
   "shutdown_command": "echo '{{ user `ssh_password` }}'|sudo -S shutdown -P now",
   "ssh_password": "{{ user `ssh_password` }}",
   "ssh_username": "{{ user `ssh_username` }}",
-  "ssh_wait_timeout": "10000s",
-  "vm_name": "{{ user `vm_name` }}"
+  "ssh_wait_timeout": "10000s"
 }

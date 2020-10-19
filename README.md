@@ -52,14 +52,14 @@ To release the boxes, use the release target:
 
 Putting this all together, if you want to build a specific box then you can be doing something like:
 
-    BOXES=ubuntu1604 cm=puppet make clean build-vagrant
+    BOXES=ubuntu1804 cm=puppet make clean build-vagrant
 
 Or to build a new template on vsphere cluster:
 
-    vsphere_username=adminla_xxx@vsphere.local vsphere_password=xxxxxxx BOXES=ubuntu1604 cm=puppet make build-vsphere
+    vsphere_username=adminla_xxx@vsphere.local vsphere_password=xxxxxxx BOXES=ubuntu1804 cm=puppet make build-vsphere
 
-**Once the template is uploaded, currently, it's not automatically flagged as a template, so you should manually connect to the
-vsphere console and mark it as such so it's not inadvertently powered up.**
+If the ubuntu iso is updated, it will need to be copied to [v3700-01-vol1] la_iso/ubuntu/ - either through the vsphere console
+or using govc if you have that installed locally.
 
 The `CHANGELOG.md` is used for describing a version of a box. So keep this up to date with the main features/improvements/bugfixes
 for the current release.

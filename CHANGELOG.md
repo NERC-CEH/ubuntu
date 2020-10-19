@@ -4,6 +4,9 @@
 
 ## 3.0.1
 
+* Upgrade to 18.04.5 LTS
+* Split vsphere and vagrant providers
+
 ## 3.0.0
 
 * Upgrade to 18.04.4 LTS

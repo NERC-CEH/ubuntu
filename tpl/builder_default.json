@@ -18,7 +18,6 @@
     "<enter>"
   ],
   "boot_wait": "{{ user `boot_wait` }}",
-  "disk_size": "{{ user `disk_size` }}",
   "floppy_files": [
     "http/{{ user `preseed` }}"
   ],

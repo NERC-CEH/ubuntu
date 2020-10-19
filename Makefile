@@ -1,12 +1,12 @@
 BOX_FILENAMES := $(wildcard ubuntu*.json)
 BOXES ?= $(basename $(BOX_FILENAMES))
 TEMPLATES ?= vagrant vsphere
-UPLOAD_DIR ?= /mnt/nerclactdb/appdev/DIST/public/boxes/
+UPLOAD_DIR ?= /mnt/appdev/DIST/public/boxes/
 PACKER_ARGS ?=
 
 JQ_SET_POST_PROCESSOR := .[0]["post-processors"] = .[1]
 JQ_VSPHERE_BUILDS_ONLY := .[0]["builders"] = [.[0]["builders"][] | select(.type == "vsphere-iso")]
-JQ_VAGRANT_BUILDS_ONLY := .[0]["builders"] = [.[0]["builders"][] | select(.type == "vmware-iso")]
+JQ_VAGRANT_BUILDS_ONLY := .[0]["builders"] = [.[0]["builders"][] | select(.type == "vmware-iso" or .type == "virtualbox-iso")]
 
 export cm ?= puppet
 export cm_version ?=

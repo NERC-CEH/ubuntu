@@ -11,8 +11,8 @@
         "memsize": "{{ user `memory` }}",
         "numvcpus": "{{ user `cpus` }}"
       },
-      "iso_checksum": "{{ user `iso_checksum` }}",
-      "iso_checksum_type": "{{ user `iso_checksum_type` }}",
+      "disk_size": "{{ user `disk_size` }}",
+      "iso_checksum": "{{ user `iso_checksum_type` }}:{{ user `iso_checksum` }}",
       "iso_urls": [
         "{{ user `iso_url` }}"
       ],
@@ -24,40 +24,42 @@
       "guest_os_type": "{{ user `vmware_guest_os_type` }}",
       "http_directory": "http",
       "vm_version": "{{ user `vmware_hardware_version` }}",
-
-      "iso_checksum": "{{ user `iso_checksum` }}",
-      "iso_checksum_type": "{{ user `iso_checksum_type` }}",
+      "iso_checksum": "{{ user `iso_checksum_type` }}:{{ user `iso_checksum` }}",
       "iso_paths": [
         "{{ user `iso_path` }}"
       ],
-
       "username": "{{ user `vsphere_username` }}",
       "password": "{{ user `vsphere_password` }}",
       "insecure_connection": "true",
-
       "vcenter_server": "{{ user `vsphere_host` }}",
       "datacenter": "{{user `vsphere_datacenter`}}",
-      "cluster": "{{ user `vsphere_cluster` }}",
       "datastore": "{{user `vsphere_datastore`}}",
+      "cluster": "{{ user `vsphere_cluster` }}",
       "vm_name": "{{user `vm_name`}}-{{user `cm`}}{{user `cm_version`}}-{{user `version`}}",
       "folder": "{{ user `vsphere_template_folder` }}",
-
       "CPUs": "{{ user `cpus` }}",
       "RAM": "{{ user `memory` }}",
-
+      "storage": [
+        {
+          "disk_size": "{{ user `disk_size` }}"
+        }
+      ],
       "network_adapters": [
         {
           "network": "{{ user `vsphere_vlan` }}",
           "network_card": "vmxnet3"
         }
       ],
-
       "convert_to_template": true
     },
     {
       "type": "virtualbox-iso",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "guest_os_type": "{{ user `virtualbox_guest_os_type` }}",
+      "iso_checksum": "{{ user `iso_checksum_type` }}:{{ user `iso_checksum` }}",
+      "iso_urls": [
+        "{{ user `iso_url` }}"
+      ],
       "hard_drive_interface": "sata",
       "output_directory": "output-{{ user `vm_name` }}-virtualbox-iso",
       "vboxmanage": [
@@ -116,9 +118,8 @@
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
     "iso_checksum_type": "sha1",
-    "memory": "2048",
+    "memory": "8092",
     "no_proxy": "{{env `no_proxy`}}",
-    "preseed" : "preseed.cfg",
     "rsync_proxy": "{{env `rsync_proxy`}}",
     "hostname": "vagrant",
     "ssh_fullname": "vagrant",

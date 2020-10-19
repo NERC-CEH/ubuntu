@@ -118,7 +118,7 @@
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
     "iso_checksum_type": "sha1",
-    "memory": "8092",
+    "memory": "2048",
     "no_proxy": "{{env `no_proxy`}}",
     "rsync_proxy": "{{env `rsync_proxy`}}",
     "hostname": "vagrant",
